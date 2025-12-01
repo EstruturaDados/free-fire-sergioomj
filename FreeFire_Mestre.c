@@ -21,7 +21,7 @@ int totalComponentes = 0;
 int comparacoes = 0;  // Contador global de comparações
 int ordenadoPorNome = 0;  // Flag para verificar se está ordenado por nome
 
-// ==================== PROTÓTIPOS DE FUNÇÕES ====================
+// ==================== FUNÇÕES ====================
 void exibirMenu();
 void limparBuffer();
 void cadastrarComponentes();
@@ -165,7 +165,7 @@ void cadastrarComponentes() {
     ordenadoPorNome = 0;  // Reset da flag de ordenação
 }
 
-// ==================== EXIBIÇÃO DE COMPONENTES ====================
+// ==================== EXIBE COMPONENTES ====================
 void mostrarComponentes(Componente componentes[], int n) {
     if (n == 0) {
         printf("\n[INFO] Nenhum componente cadastrado!\n");
@@ -208,7 +208,7 @@ void bubbleSortNome(Componente componentes[], int n) {
                 trocou = 1;
             }
         }
-        // Se não houve trocas, o array já está ordenado
+        // Se não tiver trocas, o array já está ordenado
         if (!trocou) break;
     }
 }
@@ -346,7 +346,7 @@ void buscarComponenteInterativo() {
            (totalComponentes <= 10) ? "Muito alta" : "Alta");
     printf("└─────────────────────────────────────────────────────────────┘\n");
     
-    // Sugere buscar componente-chave se não encontrou
+    // buscar componente chave se não encontrou
     if (resultado == -1) {
         printf("\n   DICA: Componentes-chave comuns para montagem da torre:\n");
         printf("  • 'chip central'     • 'propulsor principal'  • 'gerador'\n");
@@ -407,14 +407,14 @@ void simularMontagemFinal(Componente componentes[], int n) {
     printf("│ FASE FINAL - ÚLTIMA SAFE ZONE                              │\n");
     printf("└─────────────────────────────────────────────────────────────┘\n\n");
     
-    // Pergunta ao jogador qual é o componente-chave
+    // pergunta ao jogador qual é o componente chave
     char componenteChaveNome[MAX_NOME];
     printf("Antes de montar, identifique o COMPONENTE-CHAVE da sua torre.\n");
     printf("Digite o nome do componente mais importante: ");
     fgets(componenteChaveNome, MAX_NOME, stdin);
     componenteChaveNome[strcspn(componenteChaveNome, "\n")] = '\0';
     
-    // Procura o componente-chave (busca linear)
+    // procura o componente chave (busca linear)
     int componenteChave = -1;
     for (int i = 0; i < n; i++) {
         if (strcmp(componentes[i].nome, componenteChaveNome) == 0) {
@@ -435,7 +435,7 @@ void simularMontagemFinal(Componente componentes[], int n) {
         printf("   Verifique se o nome está correto ou cadastre este componente.\n\n");
     }
     
-    // Pergunta como o jogador quer ver os componentes
+    // pergunta como o jogador quer ordenar e ver os componentes
     printf("\nComo deseja visualizar os componentes para montagem?\n");
     printf("1. Ordenados por PRIORIDADE (recomendado para montagem)\n");
     printf("2. Ordenados por NOME (organização alfabética)\n");
@@ -447,11 +447,11 @@ void simularMontagemFinal(Componente componentes[], int n) {
     scanf("%d", &opcaoVisualizacao);
     limparBuffer();
     
-    // Cria uma cópia para ordenação visual
+    // cria uma cópia para ordenação visual
     Componente visualizacao[MAX_COMPONENTES];
     memcpy(visualizacao, componentes, sizeof(Componente) * n);
     
-    // Aplica a ordenação escolhida (apenas para visualização)
+    // aplica a ordenação escolhida (apenas para visualização)
     switch(opcaoVisualizacao) {
         case 1:
             selectionSortPrioridade(visualizacao, n);
@@ -471,7 +471,7 @@ void simularMontagemFinal(Componente componentes[], int n) {
     
     mostrarComponentes(visualizacao, n);
     
-    // Calcula estatísticas PARA DECISÃO DO RESULTADO
+    // aalcula estatísticas PARA DECISÃO DO RESULTADO
     int prioridadeTotal = 0;
     int tiposDiferentes = 0;
     char tiposVistos[MAX_COMPONENTES][MAX_TIPO];
@@ -481,13 +481,13 @@ void simularMontagemFinal(Componente componentes[], int n) {
     for (int i = 0; i < n; i++) {
         prioridadeTotal += componentes[i].prioridade;
         
-        // Encontra componente com maior prioridade
+        // encontra componente com maior prioridade
         if (componentes[i].prioridade > prioridadeMaxima) {
             prioridadeMaxima = componentes[i].prioridade;
             strcpy(componenteMaisImportante, componentes[i].nome);
         }
         
-        // Conta tipos diferentes
+        // conta tipos diferentes
         int tipoNovo = 1;
         for (int j = 0; j < tiposDiferentes; j++) {
             if (strcmp(componentes[i].tipo, tiposVistos[j]) == 0) {
@@ -582,7 +582,7 @@ void simularMontagemFinal(Componente componentes[], int n) {
         printf("│ 2. Sistema de energia ativado    [ok]                       │\n");
         printf("│ 3. Propulsão carregada           [ok]                       │\n");
         printf("│ 4. Sequência de ignição          [ok]                       │\n");
-        printf("│                                               IGNIÇÃO! 🚀  │\n");
+        printf("│                                               IGNIÇÃO!     │\n");
         printf("└─────────────────────────────────────────────────────────────┘\n");
         
         // Mostra dicas para melhorar a chance
@@ -620,7 +620,7 @@ void simularMontagemFinal(Componente componentes[], int n) {
         printf("│                                                 FALHA!   │\n");
         printf("└─────────────────────────────────────────────────────────────┘\n");
         
-        printf("\n💡 COMO MELHORAR NA PRÓXIMA TENTATIVA:\n");
+        printf("\n  COMO MELHORAR NA PRÓXIMA TENTATIVA:\n");
         if (componenteChave == -1) {
             printf("1. Certifique-se de cadastrar o componente-chave '%s'\n", componenteChaveNome);
         }
